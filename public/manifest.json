@@ -1,0 +1,11 @@
+  {
+    "name": "Sigma Chat",
+    "short_name": "SC",
+    "icons": [
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
