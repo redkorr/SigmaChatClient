@@ -1,9 +1,16 @@
-export interface Chat {
-    messages: Message[];
+export interface ChatModel {
+    messages: MessageModel[];
 }
 
-export interface Message {
-    id: string;
+export interface MessageModel {
+    messageId: number;
+    sender: string;
+    text: string;
+    dateCreated: Date;
+}
+
+export interface SendMessageModel {
+    chatId: number;
     sender: string;
     text: string;
 }

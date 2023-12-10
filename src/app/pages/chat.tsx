@@ -1,35 +1,47 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Chat } from "../models/chat";
-import { getChat, getMockedChat } from "../logic/api";
+import { ChatModel, MessageModel } from "../models/chat";
+import MessageList from "../components/messageList";
+import { useChat } from "../hooks/useChat";
+import MessageInput from "../components/messageInput";
+import { Context, Hub } from "react-signalr/src/signalr/types";
+import Login from "../components/login";
+import { useUser } from "../hooks/useUser";
 
-export default function Chat() {
-  const [model, setModel] = useState<Chat | null>();
+export default function Chat({ signalRContext }: Props) {
+  const { user, setUserAndSave } = useUser();
+  const { chat, setChat, sendMessage } = useChat(user ?? null);
 
-  useEffect(() => {
-    const dataFetch = async () => {
-      const chat = await getMockedChat();
-      // const chat = await getChat();
+  signalRContext.useSignalREffect(
+    "ReceiveMessage",
+    (message: MessageModel) => {
+      setChat((chat) => {
+        if (chat?.messages.some((m) => m.messageId == message.messageId))
+          return chat;
 
-      if (chat === null) {
-        alert("Errror");
-      }
-
-      setModel(chat);
-    };
-
-    dataFetch();
-  }, []);
+        return chat ? { ...chat, messages: [...chat.messages, message] } : chat;
+      });
+    },
+    []
+  );
 
   return (
-    <div className="flex flex-col justify-start w-full p-2 gap-2">
-      {model?.messages.map((msg, i) => (
-        <div key={i} className="flex flex-col">
-          <span className="text-sm opacity-50 m-left">{msg.sender}</span>
-          <span className="ml-4">{msg.text}</span>
+    <div className="flex flex-col w-full min-h-screen p-2 gap-2 justify-center items-center">
+      {user === null && <Login setUser={setUserAndSave}></Login>}
+      {chat && user && (
+        <div className="w-full md:w-4/5 md:mb-5 flex flex-col gap-5">
+          <MessageList
+            messages={chat.messages}
+            currentUser={user}
+          ></MessageList>
+          <MessageInput sendMessage={sendMessage}></MessageInput>
         </div>
-      ))}
+      )}
     </div>
   );
+}
+
+interface Props {
+  signalRContext: Context<Hub<string, string>>;
 }
