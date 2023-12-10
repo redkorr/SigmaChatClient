@@ -2,6 +2,11 @@
     "name": "Sigma Chat",
     "short_name": "SC",
     "icons": [
+      {
+        "src": "cc.svg",
+        "sizes":"any",
+        "type": "image/svg+xml"
+      }
   ],
   "theme_color": "#FFFFFF",
   "background_color": "#FFFFFF",
