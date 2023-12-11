@@ -1,23 +1,24 @@
-"use client";
+// "use client";
 import Message from "./message";
-import { MessageModel } from "../models/chat";
-import { createRef, useEffect, useRef } from "react";
+import { MessageModel } from "../../models/chat";
+import { createRef, useContext, useEffect, useRef } from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
-export default function MessageList({ messages, currentUser }: Props) {
+export default function MessageList({ messages }: Props) {
+  const { user } = useUser();
+
   const messageListRef = useRef<HTMLDivElement>(null);
-  const isInitialMountScroll = useRef(true);
 
   useEffect(() => {
     if (messageListRef.current) {
       {
         let scrollConfig = {
-          behavior: isInitialMountScroll.current ? "instant" : "smooth",
+          behavior: "instant",
         } as ScrollIntoViewOptions;
 
         messageListRef.current.children[messages.length - 1]?.scrollIntoView(
           scrollConfig
         );
-        isInitialMountScroll.current = false;
       }
     }
   }, [messages]);
@@ -30,11 +31,11 @@ export default function MessageList({ messages, currentUser }: Props) {
       {messages.map((msg) => (
         <div
           key={msg.messageId}
-          className={`max-w-lg ${msg.sender == currentUser && "self-end"}`}
+          className={`${msg.sender == user?.name && "flex justify-end"}`}
         >
           <Message
             message={msg}
-            fromCurrentUser={msg.sender == currentUser}
+            fromCurrentUser={msg.sender == user?.name}
           ></Message>
         </div>
       ))}
@@ -53,5 +54,4 @@ export default function MessageList({ messages, currentUser }: Props) {
 
 interface Props {
   messages: MessageModel[];
-  currentUser: string;
 }

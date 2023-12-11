@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { ChatModel, MessageModel, SendMessageModel } from "../models/chat";
+import { UserProfile } from "@auth0/nextjs-auth0/client";
 
 const address = `${process.env.NEXT_PUBLIC_API_URL}/messages`;
 
-export function useChat(user: string | null) {
+export function useChat(user: UserProfile | null) {
     const [chat, setChat] = useState<ChatModel | null>(null);
 
     useEffect(() => {
@@ -33,7 +34,7 @@ export function useChat(user: string | null) {
         const createMessageModel = {
             // TODO: unhardcode this shit
             chatId: 1,
-            sender: user,
+            sender: user?.name,
             text: text,
         } as SendMessageModel;
 
