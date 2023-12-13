@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { UserProvider, useUser } from "@auth0/nextjs-auth0/client";
 import { createSignalRContext } from "react-signalr";
 import menu from "./components/menu";
 

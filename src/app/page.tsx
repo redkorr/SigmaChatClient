@@ -4,7 +4,7 @@ import { createSignalRContext } from "react-signalr/signalr";
 import Chat from "./chat/page";
 import AppRouter from "next/dist/client/components/app-router";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
@@ -13,11 +13,11 @@ export default function Home() {
 
   useEffect(() => {
     if (user) {
-      push("/chat");
+      return redirect("/chat");
     }
 
     if (!user && !isLoading) {
-      push("/api/auth/login");
+      return redirect("/api/auth/login");
     }
   }, [user, push, isLoading]);
 

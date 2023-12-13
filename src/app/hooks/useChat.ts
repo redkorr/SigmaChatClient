@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useState } from "react";
 import { ChatModel, MessageModel, SendMessageModel } from "../models/chat";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
@@ -9,13 +10,9 @@ export function useChat(user: UserProfile | null) {
 
     useEffect(() => {
         const apiCall = async () => {
-            //TODO: unhardcode chatId and handle errors
-            const response = await fetch(`${address}/1`).then(
-                (json) => json,
-                (reason) => null
-            );
+            const response = await fetch(`api/chat`)
 
-            if (response === null || response.status !== 200) {
+            if (response.status !== 200) {
                 setChat(null)
                 return;
             }
