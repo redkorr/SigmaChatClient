@@ -1,0 +1,13 @@
+services:
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    networks:
+      - sigmaChat
+    env_file:
+      - .env.prod
+
+networks:
+  sigmaChat:
+    name: sigmaChat
