@@ -8,19 +8,6 @@ import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Home() {
-  const { user, isLoading } = useUser();
-  const { push } = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      return redirect("/chat");
-    }
-
-    if (!user && !isLoading) {
-      return redirect("/api/auth/login");
-    }
-  }, [user, push, isLoading]);
-
   return (
     //todo think of landing?
     <main className="flex min-h-screen flex-col items-center justify-between"></main>

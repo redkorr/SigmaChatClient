@@ -6,7 +6,44 @@ const nextConfig = {
         skipWaiting: true,
         disableDevLogs: true,
     }),
-    productionBrowserSourceMaps: true
+    productionBrowserSourceMaps: true,
+    async redirects() {
+        return [
+            {
+                source: '/',
+                has: [
+                    {
+                        type: 'cookie',
+                        key: 'appSession'
+                    }
+                ],
+                permanent: false,
+                destination: '/chat',
+            },
+            {
+                source: '/',
+                missing: [
+                    {
+                        type: 'cookie',
+                        key: 'appSession'
+                    }
+                ],
+                permanent: false,
+                destination: '/api/auth/login',
+            },
+            {
+                source: '/:slug',
+                missing: [
+                    {
+                        type: 'cookie',
+                        key: 'appSession'
+                    }
+                ],
+                permanent: false,
+                destination: '/api/auth/login',
+            }
+        ]
+    }
 }
 
 module.exports = nextConfig
