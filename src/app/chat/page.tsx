@@ -30,7 +30,7 @@ export default function Chat() {
 
   return (
     <signalRContext.Provider
-      connectEnabled={true}
+      connectEnabled={process.env.NEXT_PUBLIC_API_HUB !== undefined}
       withCredentials={false}
       url={process.env.NEXT_PUBLIC_API_HUB!}
     >

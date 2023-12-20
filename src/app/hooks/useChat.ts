@@ -3,8 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import { ChatModel, MessageModel, SendMessageModel } from "../models/chat";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 
-const address = `${process.env.NEXT_PUBLIC_API_URL}/messages`;
-
 export function useChat(user: UserProfile | null) {
     const [chat, setChat] = useState<ChatModel | null>(null);
 
@@ -40,7 +38,7 @@ export function useChat(user: UserProfile | null) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(createMessageModel)
         };
-        const response = await fetch(`${address}`, requestOptions).then(
+        const response = await fetch(`api/chat`, requestOptions).then(
             (json) => json,
             (reason) => null
         );
