@@ -1,22 +1,28 @@
 "use client";
 import Image from "next/image";
 import { createSignalRContext } from "react-signalr/signalr";
-import Chat from "./pages/chat";
-
-const SignalRContext = createSignalRContext();
+import Chat from "./chat/page";
+import AppRouter from "next/dist/client/components/app-router";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { redirect, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  const token = "";
+  const { user, isLoading } = useUser();
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      return redirect("/chat");
+    }
+
+    if (!user && !isLoading) {
+      return redirect("/api/auth/login");
+    }
+  }, [user, push, isLoading]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      <SignalRContext.Provider
-        connectEnabled={true}
-        withCredentials={false}
-        url={process.env.NEXT_PUBLIC_API_HUB!}
-      >
-        <Chat signalRContext={SignalRContext}></Chat>
-      </SignalRContext.Provider>
-    </main>
+    //todo think of landing?
+    <main className="flex min-h-screen flex-col items-center justify-between"></main>
   );
 }
