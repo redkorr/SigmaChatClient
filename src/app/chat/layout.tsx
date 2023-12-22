@@ -1,5 +1,5 @@
 "use client";
-import Menu from "../components/menu";
+import Menu from "../shared/components/menu";
 
 export default function ChatLayout({
   children,

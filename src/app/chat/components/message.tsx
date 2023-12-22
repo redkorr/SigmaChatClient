@@ -1,4 +1,3 @@
-// "use client";
 import { MessageModel } from "../../models/chat";
 
 export default function Message({ message, fromCurrentUser }: Props) {
@@ -9,7 +8,7 @@ export default function Message({ message, fromCurrentUser }: Props) {
           fromCurrentUser ? "self-end" : "self-start"
         } text-sm opacity-50`}
       >
-        {message.sender}
+        {message.userNickname}
       </span>
       <span
         className={`${fromCurrentUser ? "mr-4 self-end" : "ml-4"} break-words`}

@@ -1,4 +1,3 @@
-// "use client";
 import Message from "./message";
 import { MessageModel } from "../../models/chat";
 import { createRef, useContext, useEffect, useRef } from "react";
@@ -31,11 +30,11 @@ export default function MessageList({ messages }: Props) {
       {messages.map((msg) => (
         <div
           key={msg.messageId}
-          className={`${msg.sender == user?.name && "flex justify-end"}`}
+          className={`${msg.userNickname == user?.name && "flex justify-end"}`}
         >
           <Message
             message={msg}
-            fromCurrentUser={msg.sender == user?.name}
+            fromCurrentUser={msg.userNickname == user?.name}
           ></Message>
         </div>
       ))}

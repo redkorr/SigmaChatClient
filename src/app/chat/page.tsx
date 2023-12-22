@@ -8,12 +8,14 @@ import { MessageModel } from "../models/chat";
 import MessageList from "./components/messageList";
 import MessageInput from "./components/messageInput";
 import { createSignalRContext } from "react-signalr";
+import Loading from "../shared/components/loading";
+import { UserContextInstance } from "../userLayer";
 
 const signalRContext = createSignalRContext();
 
 export default function Chat() {
-  const { user } = useUser();
-  const { chat, setChat, sendMessage } = useChat(user ?? null);
+  const user = useContext(UserContextInstance);
+  const { chat, setChat, sendMessage } = useChat(user?.user ?? null);
 
   signalRContext.useSignalREffect(
     "ReceiveMessage",
@@ -28,13 +30,14 @@ export default function Chat() {
     []
   );
 
+  if (!user) return <Loading />;
+
   return (
     <signalRContext.Provider
-      connectEnabled={true}
       withCredentials={false}
       url={process.env.NEXT_PUBLIC_API_HUB!}
     >
-      <div className="flex flex-col w-full min-h-screen p-2 gap-2 justify-center items-center">
+      <div className="min-h-screen flex flex-col w-full p-2 gap-2 justify-end items-center">
         {chat && user && (
           <div className="w-full md:w-4/5 md:mb-5 flex flex-col gap-5">
             <MessageList messages={chat.messages}></MessageList>

@@ -1,9 +1,15 @@
 import { handleAuth, handleCallback, handleLogin, login, getAccessToken } from '@auth0/nextjs-auth0';
+import { redirect } from 'next/navigation';
 
-const afterCallback = (_, sesh) => {
+const afterCallback = async (_, sesh) => {
     const token = sesh.accessToken
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/callback`
-        , { headers: { authorization: `Bearer ${token}` } })
+    try {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/callback`
+            , { headers: { authorization: `Bearer ${token}` } })
+    } catch (error) {
+        redirect("/api/auth/logout");
+    }
+
     return sesh
 }
 

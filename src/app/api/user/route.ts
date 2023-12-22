@@ -1,4 +1,3 @@
-import { MessageModel } from "@/app/models/chat";
 import { getAccessToken } from "@auth0/nextjs-auth0";
 
 export const GET = async () => {
@@ -9,13 +8,13 @@ export const GET = async () => {
             }
         }
     );
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/messages/1`
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/me`
         , { headers: { authorization: `Bearer ${accessToken.accessToken}` } })
 
     return response
 }
 
-export const POST = async (request: Request) => {
+export const PATCH = async (request: Request) => {
     const json = await request.text();
 
     const accessToken = await getAccessToken(
@@ -25,10 +24,9 @@ export const POST = async (request: Request) => {
             }
         }
     );
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/messages`
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/me`
         , {
-            method: "POST",
+            method: "PATCH",
             body: json,
             headers: { authorization: `Bearer ${accessToken.accessToken}` }
         })
