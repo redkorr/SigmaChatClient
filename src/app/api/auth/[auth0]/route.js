@@ -18,7 +18,8 @@ export const GET = handleAuth({
         // Pass custom parameters to login
         return await handleLogin(req, res, {
             authorizationParams: {
-                audience: "SigmaChatBackend"
+                audience: "SigmaChatBackend",
+                scope: 'openid profile offline_access'
             }
         });
     },
