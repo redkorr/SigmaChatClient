@@ -3,12 +3,16 @@ import { redirect } from 'next/navigation';
 
 const afterCallback = async (_, sesh) => {
     const token = sesh.accessToken
-    try {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/callback`
-            , { headers: { authorization: `Bearer ${token}` } })
-    } catch (error) {
-        redirect("/api/auth/logout");
-    }
+
+    if (!sesh.accessToken)
+        throw ("Empty access token on callback")
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/callback`
+        , { headers: { authorization: `Bearer ${token}` } })
+        .then({
+            error: (_) =>
+                redirect("/api/auth/logout")
+        })
 
     return sesh
 }
@@ -23,8 +27,5 @@ export const GET = handleAuth({
             }
         });
     },
-
-    async callback(req, res) {
-        return await handleCallback(req, res, { afterCallback });
-    }
+    callback: handleCallback({ afterCallback })
 });
