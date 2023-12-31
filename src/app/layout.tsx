@@ -10,7 +10,6 @@ import { UserModel } from "./models/user";
 import UserLayer from "./userLayer";
 import { UserContext } from "./shared/userContext";
 
-
 export default function RootLayout({
   children,
 }: {
@@ -19,6 +18,7 @@ export default function RootLayout({
   return (
     <UserProvider>
       <html lang="en">
+        <meta name="theme-color" content="#000000" />
         <head>
           <link
             rel="manifest"

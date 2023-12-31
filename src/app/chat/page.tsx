@@ -37,7 +37,7 @@ export default function Chat() {
       withCredentials={false}
       url={process.env.NEXT_PUBLIC_API_HUB!}
     >
-      <div className="min-h-screen flex flex-col w-full p-2 gap-2 justify-end items-center">
+      <div className="min-h-svh flex flex-col w-full p-2 gap-2 justify-end items-center">
         {chat && user && (
           <div className="w-full md:w-4/5 md:mb-5 flex flex-col gap-5">
             <MessageList messages={chat.messages}></MessageList>

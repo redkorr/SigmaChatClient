@@ -5,11 +5,12 @@
       {
         "src": "cc.svg",
         "sizes":"any",
-        "type": "image/svg+xml"
+        "type": "image/svg+xml",
+        "purpose": "any maskable"
       }
   ],
-  "theme_color": "#FFFFFF",
-  "background_color": "#FFFFFF",
+  "theme_color": "#000000",
+  "background_color": "#000000",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait"

@@ -18,14 +18,13 @@ const afterCallback = async (_, sesh) => {
 }
 
 export const GET = handleAuth({
-    async login(req, res) {
-        // Pass custom parameters to login
-        return await handleLogin(req, res, {
-            authorizationParams: {
-                audience: "SigmaChatBackend",
-                scope: 'openid profile offline_access'
-            }
-        });
-    },
+    // Pass custom parameters to login
+    login: handleLogin({
+        authorizationParams: {
+            audience: "SigmaChatBackend",
+            scope: 'openid profile offline_access'
+        }
+
+    }),
     callback: handleCallback({ afterCallback })
 });

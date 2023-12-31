@@ -48,7 +48,7 @@ export default function Profile() {
   return errors ? (
     <span>Errors updating profile - {errors}</span>
   ) : (
-    <div className="flex justify-center min-h-screen items-center flex-col gap-5">
+    <div className="flex justify-center min-h-svh items-center flex-col gap-5">
       Nickname:
       <input
         className="text-black p-3 rounded-sm"
