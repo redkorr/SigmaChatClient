@@ -1,11 +1,6 @@
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    ...require("next-pwa")({
-        dest: "public",
-        register: true,
-        skipWaiting: true,
-        disableDevLogs: true,
-    }),
     productionBrowserSourceMaps: true,
     async redirects() {
         return [
@@ -58,4 +53,13 @@ const nextConfig = {
     }
 }
 
-module.exports = nextConfig
+const withPwa = require("next-pwa")({
+    dest: "public",
+    register: true,
+    skipWaiting: true,
+})
+
+
+module.exports = withPwa({
+    ...nextConfig
+});

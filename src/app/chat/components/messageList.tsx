@@ -4,7 +4,7 @@ import { createRef, useContext, useEffect, useRef } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function MessageList({ messages }: Props) {
-  const { user } = useUser();
+  const { user } = useUser(); // <- broken
 
   const messageListRef = useRef<HTMLDivElement>(null);
 
