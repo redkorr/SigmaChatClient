@@ -37,6 +37,9 @@ export default function UserLayer({ children }: { children: React.ReactNode }) {
 
     apiCall();
   }, [authzUser, router]);
+
+  if (errors) redirect(process.env.NEXT_PUBLIC_UNTHINKABLE!);
+
   return (
     <>
       {errors ? (

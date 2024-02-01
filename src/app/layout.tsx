@@ -9,16 +9,30 @@ import { createContext, useEffect, useState } from "react";
 import { UserModel } from "./models/user";
 import UserLayer from "./userLayer";
 import { UserContext } from "./shared/userContext";
+import { registerNotificationWorker } from "./utils/registerWorker";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  useEffect(() => {
+    registerNotificationWorker();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/service-worker.js");
+      }
+    });
+  }, []);
+
   return (
     <UserProvider>
       <html lang="en">
         <meta name="theme-color" content="#000000" />
+        <link rel="icon" href="/cc.svg" sizes="any" />
         <head>
           <link
             rel="manifest"
