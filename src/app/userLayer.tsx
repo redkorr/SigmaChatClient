@@ -5,12 +5,13 @@ import { UserModel } from "./models/user";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { UserContext } from "./shared/userContext";
+import { registerNotificationWorker } from "./utils/registerWorker";
 
 const inter = Inter({ subsets: ["latin"] });
 export const UserContextInstance = createContext<UserContext | null>(null);
 
 export default function UserLayer({ children }: { children: React.ReactNode }) {
-  const [errors, setErrors] = useState<string>();
+  const [errors, setErrors] = useState<boolean>();
   const { user: authzUser, isLoading } = useUser();
   const [user, setUser] = useState<UserModel | null>(null);
   const router = useRouter();
@@ -18,14 +19,15 @@ export default function UserLayer({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const apiCall = async () => {
       const response = await fetch(`api/user`);
-
       if (response.status !== 200) {
-        setErrors(response.status + " - " + (await response.text()));
+        setErrors(true);
         return;
       }
 
       const user = (await response.json()) as UserModel;
       setUser(user);
+
+      registerNotificationWorker();
 
       if (!user.nickname) router.push("/profile");
     };

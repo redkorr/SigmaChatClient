@@ -17,10 +17,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   useEffect(() => {
-    registerNotificationWorker();
-  }, []);
-
-  useEffect(() => {
     window.addEventListener("load", () => {
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("/service-worker.js");
