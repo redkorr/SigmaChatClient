@@ -18,15 +18,16 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('push', function (event) {
-  checkClientIsVisible().then((isVisible) => {
-    if (isVisible) return;
+  event.waitUntil(
+    checkClientIsVisible().then((isVisible) => {
+      if (isVisible) return;
 
-    if (event && event.data) {
-      const data = event.data.json();
-      event.waitUntil(self.registration.showNotification(data.title, {
-        body: data.body,
-        icon: data.icon || null
-      }));
-    }
-  });
+      if (event && event.data) {
+        const data = event.data.json();
+        return self.registration.showNotification(data.title, {
+          body: data.body,
+          icon: data.icon || null
+        });
+      }
+    }));
 });
