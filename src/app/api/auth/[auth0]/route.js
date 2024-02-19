@@ -5,13 +5,13 @@ const afterCallback = async (_, sesh) => {
     const token = sesh.accessToken
 
     if (!sesh.accessToken)
-        throw ("Empty access token on callback")
+        throw ('Empty access token on callback')
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/callback`
         , { headers: { authorization: `Bearer ${token}` } })
         .then({
             error: (_) =>
-                redirect("/api/auth/logout")
+                redirect('/api/auth/logout')
         })
 
     return sesh
@@ -21,7 +21,7 @@ export const GET = handleAuth({
     // Pass custom parameters to login
     login: handleLogin({
         authorizationParams: {
-            audience: "SigmaChatBackend",
+            audience: 'SigmaChatBackend',
             scope: 'openid profile offline_access'
         }
 

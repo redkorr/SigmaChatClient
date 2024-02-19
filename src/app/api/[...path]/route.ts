@@ -1,5 +1,5 @@
-import { getAccessToken } from "@auth0/nextjs-auth0";
-import { NextApiRequest, NextApiResponse } from "next";
+import { getAccessToken } from '@auth0/nextjs-auth0';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 // this is basically a middleware for redirecting to backend with bearer; maybe use next config redirects or even return redirect here with set bearer?
 const withAuth = async (request: Request, options: any) => {
@@ -25,9 +25,9 @@ const handleRequest = async (req: Request) => {
 
     if (body) options.body = body;
 
-    const serverPath = req.url!.split("/api/").pop();
+    const serverPath = req.url!.split('/api/').pop();
 
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${serverPath}}`, options);
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${serverPath}`, options);
 }
 
 // export every like this, find a way to do it better

@@ -1,11 +1,11 @@
 import Message from './message';
 import { MessageModel } from '../../models/chat';
-import { createRef, useContext, useEffect, useRef } from 'react';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { createRef, useContext, useEffect, useRef, useState } from 'react';
+import { useIntersectionTrigger } from '../hooks/useIntersectionTrigger';
 
-export default function MessageList({ messages }: Props) {
-  const { user } = useUser(); // <- broken
+const PAGINATION_PAGE_SIZE = 30;
 
+export default function MessageList({ messages, paginationTrigger }: Props) {
   const messageListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,6 +14,13 @@ export default function MessageList({ messages }: Props) {
         let scrollConfig = {
           behavior: 'instant',
         } as ScrollIntoViewOptions;
+
+        if (messageListRef.current.children.length > PAGINATION_PAGE_SIZE) {
+          messageListRef.current.children[PAGINATION_PAGE_SIZE]?.scrollIntoView(
+            scrollConfig
+          );
+          return;
+        }
 
         messageListRef.current.children[messages.length - 1]?.scrollIntoView(
           scrollConfig
@@ -24,24 +31,26 @@ export default function MessageList({ messages }: Props) {
 
   return (
     <div
-      className='h-full overflow-y-auto overflow-x-hidden mb-16 md:mb-12 relative flex flex-col'
+      className="h-full overflow-y-auto overflow-x-hidden mb-16 md:mb-12 relative flex flex-col"
       ref={messageListRef}
     >
+      {paginationTrigger}
       {messages.map((msg) => (
         <div
           key={msg.messageId}
-          className={`${msg.userNickname == user?.name && 'flex justify-end'}`}
+        // className={`${msg.userNickname == user?.name && "flex justify-end"}`}
         >
           <Message
             message={msg}
-            fromCurrentUser={msg.userNickname == user?.name}
+            fromCurrentUser={false}
+          // fromCurrentUser={msg.userNickname == user?.name}
           ></Message>
         </div>
       ))}
       <div
-        className='fixed z-[-1] inset-0 opacity-5'
+        className="fixed z-[-1] inset-0 opacity-5"
         style={{
-          backgroundImage: `url('/cc.svg')`,
+          backgroundImage: 'url(\'/cc.svg\')',
           backgroundRepeat: 'no-repeat',
           backgroundSize: '40%',
           backgroundPosition: 'center',
@@ -53,4 +62,5 @@ export default function MessageList({ messages }: Props) {
 
 interface Props {
   messages: MessageModel[];
+  paginationTrigger: JSX.Element;
 }

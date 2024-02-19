@@ -1,13 +1,13 @@
-import { Inter } from "next/font/google";
-import { createContext, useEffect, useState } from "react";
-import { useUser } from "@auth0/nextjs-auth0/client";
-import { UserModel } from "./models/user";
-import { redirect } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { UserContext } from "./shared/userContext";
-import { registerNotificationWorker } from "./utils/registerWorker";
+import { Inter } from 'next/font/google';
+import { createContext, useEffect, useState } from 'react';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { UserModel } from './models/user';
+import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { UserContext } from './shared/userContext';
+import { registerNotificationWorker } from './utils/registerWorker';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 export const UserContextInstance = createContext<UserContext | null>(null);
 
 export default function UserLayer({ children }: { children: React.ReactNode }) {
@@ -16,9 +16,11 @@ export default function UserLayer({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserModel | null>(null);
   const router = useRouter();
 
+  const [lastFetchedUser, setLastFetchedUser] = useState<string | null>(null);
   useEffect(() => {
     const apiCall = async () => {
-      const response = await fetch(`api/user`);
+      setLastFetchedUser(authzUser!.sub!);
+      const response = await fetch('api/user');
       if (response.status !== 200) {
         setErrors(true);
         return;
@@ -29,10 +31,11 @@ export default function UserLayer({ children }: { children: React.ReactNode }) {
 
       registerNotificationWorker();
 
-      if (!user.nickname) router.push("/profile");
+      if (!user.nickname) router.push('/profile');
     };
 
-    if (!authzUser) {
+    //there's issue with auth0 double fetching user causing all dependent hooks to re-render
+    if (!authzUser || lastFetchedUser === authzUser.sub) {
       setUser(null);
       return;
     }

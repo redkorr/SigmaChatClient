@@ -37,3 +37,29 @@ body::-webkit-scrollbar-thumb {
   outline: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 2px;
 }
+
+@keyframes leftArm {
+  0% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes rightArm {
+  0% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(200px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}

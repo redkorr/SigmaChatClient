@@ -1,5 +1,5 @@
-import { SetStateAction } from "react";
-import { UserModel } from "../models/user";
+import { SetStateAction } from 'react';
+import { UserModel } from '../models/user';
 
 export interface UserContext {
   user: UserModel;

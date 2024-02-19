@@ -1,31 +1,48 @@
-"use client";
-import { useCallback, useEffect, useState } from "react";
-import { ChatModel, MessageModel, SendMessageModel } from "../models/chat";
-import { UserProfile } from "@auth0/nextjs-auth0/client";
-import { UserModel } from "../models/user";
+'use client';
+import { useCallback, useEffect, useState } from 'react';
+import { ChatModel, MessageModel, SendMessageModel } from '../models/chat';
+import { UserProfile } from '@auth0/nextjs-auth0/client';
+import { UserModel } from '../models/user';
 
 export function useChat(user: UserModel | null) {
     const [chat, setChat] = useState<ChatModel | null>(null);
+    const [paginationDate, setPaginationDate] = useState<Date>(new Date());
     const [errors, setErrors] = useState<string>();
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (!user)
             return;
 
         const apiCall = async () => {
-            const response = await fetch(`api/chat`)
+            setLoading(true);
+            const response = await fetch(`api/messages/1/${paginationDate.toISOString()}`)
 
             if (response.status !== 200) {
-                setErrors(response.status + " - " + response.text);
+                setErrors(response.status + ' - ' + response.text);
+                setLoading(false);
                 return;
             }
 
             const messages = await response.json() as MessageModel[];
-            setChat({ messages: messages } as ChatModel);
+            setChat((chat) => {
+                const messagesPaginationExtension = [...messages, ...chat?.messages ?? []]
+                return { ...chat, messages: messagesPaginationExtension }
+            });
+            setLoading(false);
         }
 
         apiCall()
-    }, [user]);
+    }, [user, paginationDate]);
+
+    const loadMoreMessages = useCallback(() => {
+        if (loading) return;
+
+        const lastMessageDate = chat?.messages[0].dateCreated
+        if (lastMessageDate) {
+            setPaginationDate(new Date(lastMessageDate + 'Z'));
+        }
+    }, [chat, loading]);
 
     const sendMessage = useCallback(async (text: string) => {
         if (!user)
@@ -43,9 +60,9 @@ export function useChat(user: UserModel | null) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(createMessageModel)
         };
-        const response = await fetch(`api/chat`, requestOptions)
+        const response = await fetch('api/messages/1', requestOptions)
         if (response.status != 200) {
-            setErrors(response.status + " - " + response.text);
+            setErrors(response.status + ' - ' + response.text);
             return;
         }
 
@@ -60,5 +77,5 @@ export function useChat(user: UserModel | null) {
         })
     }, [user]);
 
-    return { chat, setChat, sendMessage, errors }
+    return { chat, loadMoreMessages, setChat, sendMessage, loading, errors }
 }

@@ -1,8 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0/client";
-
-export default function Menu({}: Props) {
-  const { user, isLoading } = useUser();
-
+export default function Menu({ }: Props) {
   return (
     <nav className="flex justify-between md:flex-col md:gap-5">
       <a href="/api/auth/logout" className="text-2xl opacity-50 rounded-md">
@@ -15,4 +11,4 @@ export default function Menu({}: Props) {
   );
 }
 
-interface Props {}
+interface Props { }
