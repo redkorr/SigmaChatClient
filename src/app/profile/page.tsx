@@ -1,14 +1,14 @@
-"use client";
-import { useContext, useEffect, useState } from "react";
-import { UpdateUserModel } from "../models/user";
-import { useRouter } from "next/navigation";
-import { UserContextInstance } from "../userLayer";
+'use client';
+import { useContext, useEffect, useState } from 'react';
+import { UpdateUserModel } from '../models/user';
+import { useRouter } from 'next/navigation';
+import { UserContextInstance } from '../userLayer';
 
 export default function Profile() {
   const userContext = useContext(UserContextInstance);
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState('');
   useEffect(() => {
-    setNickname(userContext?.user.nickname ?? "");
+    setNickname(userContext?.user.nickname ?? '');
   }, [userContext]);
 
   const [errors, setErrors] = useState<string>();
@@ -28,18 +28,18 @@ export default function Profile() {
       } as UpdateUserModel;
 
       const requestOptions = {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(createMessageModel),
       };
-      const response = await fetch(`api/user`, requestOptions);
+      const response = await fetch('api/user', requestOptions);
       if (response.status != 200) {
-        setErrors(response.status + " - " + (await response.text()));
+        setErrors(response.status + ' - ' + (await response.text()));
         return;
       }
 
       userContext!.setUser((u) => (u ? { ...u, nickname: nickname } : null));
-      router.push("/");
+      router.push('/');
     };
 
     apiRequest();
