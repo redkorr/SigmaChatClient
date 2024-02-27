@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent, useEffect, useRef, useCallback } from 'react';
+import { useState, KeyboardEvent, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 import EmojiPicker, {
@@ -36,6 +36,7 @@ export default function MessageInput({ sendMessage }: Props) {
     if (text.trim().length === 0) return;
     sendMessage(text);
     setText('');
+    textAreaRef.current?.focus();
   };
 
   useEffect(() => {
@@ -65,6 +66,8 @@ export default function MessageInput({ sendMessage }: Props) {
           open={isEmojiPickerOpen}
           theme={Theme.DARK}
           width={window.screen.width < 768 ? 310 : 350}
+          searchDisabled={window.screen.height < 1024}
+          autoFocusSearch={false}
           lazyLoadEmojis={true}
           emojiStyle={EmojiStyle.NATIVE}
           onEmojiClick={(emojiData: EmojiClickData) => {
