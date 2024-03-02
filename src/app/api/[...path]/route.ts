@@ -20,6 +20,7 @@ const withAuth = async (request: Request, options: any) => {
 const handleRequest = async (req: Request) => {
     const body = await req.text();
     const options = await withAuth(req, {
+        ...req.headers,
         method: req.method,
     });
 
