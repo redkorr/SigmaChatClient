@@ -19,6 +19,3 @@ networks:
   sigmaChat:
     name: sigmaChat
 
-
-
-

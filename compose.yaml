@@ -7,6 +7,7 @@ services:
       - sigmaChat
     env_file:
       - .env.production
+
 networks:
   sigmaChat:
     name: sigmaChat
