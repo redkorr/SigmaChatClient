@@ -15,6 +15,7 @@ const signalRContext = createSignalRContext();
 
 export default function Chat() {
   const user = useContext(UserContextInstance);
+  const [isMessageSend, setIsMessageSend] = useState(false);
   const { chat, loadMoreMessages, setChat, sendMessage, loading } = useChat(
     user?.user ?? null
   );
@@ -54,8 +55,10 @@ export default function Chat() {
             <MessageList
               messages={chat.messages}
               paginationTrigger={triggerElement}
+              isMessageSend={isMessageSend}
+              setIsMessageSend={setIsMessageSend}
             ></MessageList>
-            <MessageInput sendMessage={sendMessage}></MessageInput>
+            <MessageInput sendMessage={sendMessage} setIsMessageSend={setIsMessageSend}></MessageInput>
           </div>
         )}
       </div>
