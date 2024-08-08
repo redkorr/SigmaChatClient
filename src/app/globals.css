@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --primary: #262626;
+    --primary-foreground: #f5f5f5;
+
+    --secondary: #f5f5f5;
+    --secondary-foreground: #262626;
+  }
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

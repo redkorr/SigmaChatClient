@@ -1,4 +1,11 @@
-import { useState, KeyboardEvent, useEffect, useRef, Dispatch, SetStateAction } from 'react';
+import {
+  useState,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 import EmojiPicker, {
@@ -58,12 +65,18 @@ export default function MessageInput({ sendMessage, setIsMessageSend }: Props) {
   }, [emojiPickerRef]);
 
   return (
-    <div className='fixed bottom-0 left-0 w-full flex flex-col justify-center items-center' >
-      <div className='absolute z-10 h-24 w-full' style={{ backdropFilter: 'blur(3px)', maskImage: 'linear-gradient(to top, rgba(0,0,0, 1) 50%, rgba(0,0,0, 0.1))'}}></div>
+    <div className='fixed bottom-0 left-0 w-full flex flex-col justify-center items-center'>
+      <div
+        className='absolute z-10 h-24 w-full'
+        style={{
+          backdropFilter: 'blur(3px)',
+          maskImage:
+            'linear-gradient(to top, rgba(0,0,0, 1) 50%, rgba(0,0,0, 0.1))',
+        }}
+      ></div>
       <div
         ref={emojiPickerRef}
         className='fixed bottom-20 right-16 md:right-[10%] md:mr-16'
-        
       >
         <EmojiPicker
           open={isEmojiPickerOpen}
@@ -78,11 +91,11 @@ export default function MessageInput({ sendMessage, setIsMessageSend }: Props) {
           }}
         />
       </div>
-      
+
       <div className='relative z-20 w-full md:w-4/5 mx-3 flex items-end gap-2 pb-5 pt-2 px-2'>
-        <div className='rounded-3xl w-full flex items-end bg-zinc-800'>
+        <div className='rounded-3xl w-full flex items-end bg-primary'>
           <textarea
-            className='text-gray-100 bg-zinc-800 py-2 px-4 my-auto w-full rounded-3xl resize-none focus-visible:outline-none'
+            className='text-primary-foreground bg-primary py-2 px-4 my-auto w-full rounded-3xl resize-none focus-visible:outline-none'
             name='message-input'
             value={text}
             ref={textAreaRef}
@@ -91,7 +104,7 @@ export default function MessageInput({ sendMessage, setIsMessageSend }: Props) {
             onKeyDown={handleKeyDown}
           />
           <button
-            className='text-gray-100 rounded-3xl h-[30px] m-2'
+            className='text-primary-foreground rounded-3xl h-[30px] m-2'
             ref={emojiPickerButtonRef}
             onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
           >
@@ -99,7 +112,7 @@ export default function MessageInput({ sendMessage, setIsMessageSend }: Props) {
           </button>
         </div>
         <button
-          className=' bg-zinc-800 text-gray-100 rounded-3xl'
+          className='bg-primary text-primary-foreground rounded-3xl'
           onClick={handleSendMessage}
         >
           <FontAwesomeIcon
