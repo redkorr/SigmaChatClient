@@ -4,13 +4,13 @@ export interface ChatModel {
 
 export interface MessageModel {
     messageId: number;
-    sender: string;
+    chatId: number;
+    userNickname: string;
     text: string;
     dateCreated: Date;
 }
 
 export interface SendMessageModel {
     chatId: number;
-    sender: string;
     text: string;
 }

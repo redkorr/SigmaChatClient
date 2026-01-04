@@ -8,12 +8,10 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
 }
 
 body {
@@ -38,4 +36,30 @@ body::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.2);
   outline: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 2px;
+}
+
+@keyframes leftArm {
+  0% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes rightArm {
+  0% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(200px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }
