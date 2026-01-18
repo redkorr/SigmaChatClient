@@ -1,31 +1,35 @@
+import { auth0 } from '@/lib/auth0';
 import { getAccessToken } from '@auth0/nextjs-auth0';
 import { RequestOptions } from 'https';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 // this is basically a middleware for redirecting to backend with bearer; maybe use next config redirects or even return redirect here with set bearer?
-const withAuth = async (request: Request, options: any) => {
-    const accessToken = await getAccessToken({
-        authorizationParams: {
-            audience: 'SigmaChatBackend',
-        }
+const withAuth = async (request: Request, options: RequestOptions) => {
+    const accessToken = await auth0.getAccessToken({
+        audience: 'SigmaChatBackend',
     });
 
     const headers = {
         ...options.headers,
-        authorization: `Bearer ${accessToken.accessToken}`
+        authorization: `Bearer ${accessToken.token}`
     };
 
     return { ...options, headers };
 }
 
 const handleRequest = async (req: Request) => {
-    const options = await withAuth(req, {
-        headers: {
-            'content-type': req.headers.get('content-type')!,
-        },
-        method: req.method,
-        duplex: 'half',
-    } as RequestOptions);
+    let options: any;
+    try {
+        options = await withAuth(req, {
+            headers: {
+                'content-type': req.headers.get('content-type')!,
+            },
+            method: req.method,
+            duplex: 'half',
+        } as RequestOptions);
+    } catch {
+        return new Response('Error getting auth token', { status: 401 });
+    }
 
     const { readable, writable } = new TransformStream();
     req.body?.pipeTo(writable)

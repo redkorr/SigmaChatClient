@@ -1,7 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
 import { ChatModel, MessageModel, SendMessageModel } from '../models/chat';
-import { UserProfile } from '@auth0/nextjs-auth0/client';
 import { UserModel } from '../models/user';
 
 export function useChat(user: UserModel | null) {

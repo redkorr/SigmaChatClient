@@ -35,7 +35,7 @@ export default function Loading() {
       ></Image>
       <Image
         alt="Loading"
-        src="/marek_right.gif "
+        src="/marek_right.gif"
         style={animateRight}
         className="absolute left-[calc(50%-150px)]"
         {...size}

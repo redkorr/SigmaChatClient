@@ -11,7 +11,6 @@ const inter = Inter({ subsets: ['latin'] });
 export const UserContextInstance = createContext<UserContext | null>(null);
 
 export default function UserLayer({ children }: { children: React.ReactNode }) {
-  const [errors, setErrors] = useState<boolean>();
   const { user: authzUser, isLoading } = useUser();
   const [user, setUser] = useState<UserModel | null>(null);
   const router = useRouter();
@@ -22,8 +21,7 @@ export default function UserLayer({ children }: { children: React.ReactNode }) {
       setLastFetchedUser(authzUser!.sub!);
       const response = await fetch('api/user');
       if (response.status !== 200) {
-        setErrors(true);
-        return;
+        throw new Error('Failed to fetch user (backend call)');
       }
 
       const user = (await response.json()) as UserModel;
@@ -43,19 +41,14 @@ export default function UserLayer({ children }: { children: React.ReactNode }) {
     apiCall();
   }, [authzUser, router]);
 
-  if (errors) redirect(process.env.NEXT_PUBLIC_UNTHINKABLE!);
 
   return (
-    <>
-      {errors ? (
-        <span>{errors}</span>
-      ) : (
-        <UserContextInstance.Provider
-          value={user ? { user: user, setUser: setUser } : null}
-        >
-          <body className={inter.className}>{children}</body>
-        </UserContextInstance.Provider>
-      )}
-    </>
+    <body className={inter.className}>
+      <UserContextInstance.Provider
+        value={user ? { user: user, setUser: setUser } : null}
+      >
+        {children}
+      </UserContextInstance.Provider>
+    </body>
   );
 }

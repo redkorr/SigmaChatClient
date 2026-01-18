@@ -2,6 +2,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
+    turbopack: {
+    },
     productionBrowserSourceMaps: true,
     async redirects() {
         return [
@@ -10,7 +12,7 @@ const nextConfig = {
                 has: [
                     {
                         type: 'cookie',
-                        key: 'appSession'
+                        key: '__session__1'
                     }
                 ],
                 permanent: false,
@@ -21,22 +23,22 @@ const nextConfig = {
                 missing: [
                     {
                         type: 'cookie',
-                        key: 'appSession'
+                        key: '__session__1'
                     }
                 ],
                 permanent: false,
-                destination: '/api/auth/login',
+                destination: '/auth/login',
             },
             {
                 source: '/:slug',
                 missing: [
                     {
                         type: 'cookie',
-                        key: 'appSession'
+                        key: '__session__1'
                     }
                 ],
                 permanent: false,
-                destination: '/api/auth/login',
+                destination: '/auth/login',
             }
         ]
     },
@@ -45,17 +47,17 @@ const nextConfig = {
         return [{
             source: '/api/:path*',
             headers: [
-                { key: "Access-Control-Allow-Credentials", value: "true" },
-                { key: "Access-Control-Allow-Origin", value: "*" }, // replace this your actual origin
-                { key: "Access-Control-Allow-Methods", value: "GET,DELETE,PATCH,POST,PUT" },
-                { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" },
+                { key: 'Access-Control-Allow-Credentials', value: 'true' },
+                { key: 'Access-Control-Allow-Origin', value: '*' }, // replace this your actual origin
+                { key: 'Access-Control-Allow-Methods', value: 'GET,DELETE,PATCH,POST,PUT' },
+                { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' },
             ]
         }]
     }
 }
 
-const withPwa = require("next-pwa")({
-    dest: "public",
+const withPwa = require('next-pwa')({
+    dest: 'public',
     register: true,
     skipWaiting: true,
 })
